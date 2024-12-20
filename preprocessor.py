@@ -5,39 +5,10 @@ import pickle
 import os
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import kaggle
-
-# Set up Kaggle API credentials
-os.environ['KAGGLE_USERNAME'] = 'anuvanshgundev'
-os.environ['KAGGLE_KEY'] = '0f3136c3ad03fcada849a5bb93457b3e'
-
-# Define Kaggle dataset and file names
-dataset = 'kartik1806/at-the-movies-dataset'
-movies_file = 'tmdb_5000_movies.csv'
-credits_file = 'tmdb_5000_credits.csv'
-
-# Download the dataset using Kaggle API
-os.makedirs('data', exist_ok=True)
-kaggle.api.dataset_download_file(dataset, movies_file, path='data')
-kaggle.api.dataset_download_file(dataset, credits_file, path='data')
-
-# Unzip the downloaded files
-import zipfile
-
-movies_zip_path = f'data/{movies_file}.zip'
-credits_zip_path = f'data/{credits_file}.zip'
-
-if os.path.exists(movies_zip_path):
-    with zipfile.ZipFile(movies_zip_path, 'r') as zip_ref:
-        zip_ref.extractall('data')
-
-if os.path.exists(credits_zip_path):
-    with zipfile.ZipFile(credits_zip_path, 'r') as zip_ref:
-        zip_ref.extractall('data')
 
 # Load the datasets
-movies = pd.read_csv(f'data/{movies_file}')
-credits = pd.read_csv(f'data/{credits_file}')
+movies = pd.read_csv('./tmdb_5000_movies.csv')
+credits = pd.read_csv('./tmdb_5000_credits.csv')
 
 # Merge and clean the datasets
 movies = movies.merge(credits, on='title')
